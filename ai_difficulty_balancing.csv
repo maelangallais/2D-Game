@@ -1,0 +1,6 @@
+Difficulty,Player Shot Cooldown (s),Player Damage,Enemy Shot Cooldown (s),Enemy Damage,Enemy HP,Enemy Count,Vertical Movement,Horizontal Movement,Player HP Regen,Player Stun (s),Enemy Stun (s),Enemy HP Regen,Vertical AI Behavior,Horizontal AI Behavior
+Peaceful,None,35<x<45,5,5<x<15,40<x<70,1,5<x<10,None,10<x<15,None,1<x<2,None,Random (tiny),Disabled
+Easy,0.5,25<x<35,3,10<x<20,60<x<100,1,5<x<15,0<x<5,5<x<10,0.1<x<0.4,0.5<x<1.5,None,Random (small),Random (tiny)
+Intermediate,1,15<x<25,2,15<x<25,80<x<120,1,5<x<20,0<x<10,3<x<7,0.3<x<0.7,0.5<x<1,None,Random (medium),Random (small)
+Hard,1.5,10<x<20,1.5,25<x<35,100<x<150,2,5<x<25,5<x<15,1<x<4,0.5<x<1,0.3<x<0.7,1<x<4,Keeps distance while staying in range,Random (medium)
+Hardcore,2.5,5<x<15,0.5,35<x<45,130<x<170,3,5<x<35,15<x<25,0<x<1,0.5<x<2,0.1<x<0.3,3<x<7,"Dodges bullets, keeps distance within range, fully adaptive speed within bounds",Adaptive within bounds
