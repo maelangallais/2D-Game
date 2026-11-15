@@ -11,7 +11,7 @@
 #Idées noms: Crunky
 #À suivre :
 # - Partie 2 : Histoire, ennemis, combats, inventaire, objets à récolter, nouvelles zones, etc...
-from math import cos,sin,radians,sqrt,fabs,floor,atan2,degrees
+from math import cos,sin,radians,sqrt,fabs,floor,ceil,atan2,degrees
 from kandinsky import fill_rect as fr,draw_string as ds,get_pixel as gp
 from ion import keydown as kd
 from time import monotonic as mn,sleep as sl
@@ -127,26 +127,27 @@ def draw_d():
  for i in range(len(pos_c)):draw_o(pos_c[i][0]+x,pos_c[i][1]+y,pos_c[i][2],rocher)
 col=[[balle1,balle2],[balle_enemi1,balle_enemi2]]
 def draw_b(x,y,t,d,cl,l):
- def ls(x,y,t,d,color):
-  px,py=cs(d),sn(d)
-  for a in range(t):
-   for b in range(t):
-    ax,ay=ent(a*px-b*py),ent(a*py+b*px)
-    fr(ent(x+ax),ent(y+ay),1,1,color)
- def draw(x,y,t,d,color):
-  px,py,k=cs(d),sn(d),t-1
-  for a,b in [[0,0],[1,0],[1,1],[0,1]]:
-   ax,ay=a*k*px-b*k*py,a*k*py+b*k*px
-   ls(x+ax,y+ay,t,d,color)
-   d=(d+90)%360
- d,function=360-d%360,draw
- px,py=cs(d),sn(d)
- for i in range(4):
-  if fabs(d-i*90)<7:function=ls
- for a in range(len(l[0])):
-  for b in range(len(l)):
-   nx,ny=x+a*t*px-b*t*py,y+a*t*py+b*t*px
-   if l[b][a]!=0:function(nx,ny,t,d,col[cl][l[b][a]-1])
+ rad=radians(360-d%360)
+ px,py=cos(rad),sin(rad)
+ cols,rows=len(l[0]),len(l)
+ w,h=cols*t,rows*t
+ palette=col[cl]
+ corners=((0,0),(w,0),(0,h),(w,h))
+ xs=[cx*px-cy*py for cx,cy in corners]
+ ys=[cx*py+cy*px for cx,cy in corners]
+ min_x,max_x=floor(min(xs)),ceil(max(xs))
+ min_y,max_y=floor(min(ys)),ceil(max(ys))
+ for dy in range(min_y,max_y+1):
+  run_col,run_start=0,min_x
+  for dx in range(min_x,max_x+1):
+   sx,sy=dx*px+dy*py,-dx*py+dy*px
+   ix,iy=floor(sx/t),floor(sy/t)
+   val=l[iy][ix]if(0<=ix<cols and 0<=iy<rows)else 0
+   if val!=run_col:
+    if run_col!=0:fr(x+run_start,y+dy,dx-run_start,1,palette[run_col-1])
+    run_col,run_start=val,dx
+  if run_col!=0:fr(x+run_start,y+dy,max_x+1-run_start,1,palette[run_col-1])
+ nx,ny=x+(cols-1)*t*px-(rows-1)*t*py,y+(cols-1)*t*py+(rows-1)*t*px
  return ent(nx),ent(ny)
 def c_collision(bx,by,op,pt,i,px,py,t):
  ob=360-op%360

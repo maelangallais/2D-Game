@@ -40,7 +40,7 @@ Designed around a custom sprite decoder, camera-scrolling world, multi-tier enem
 
 ### 3. Custom Pixel-Art & Rotated Projectiles
 - **Encoded Sprite Engine**: Characters (`toad`, `minion`), obstacles (`rocher`), impact sparks (`touche`), directional aim arrows (`fleche`), and projectiles are stored as compact string-encoded pixel matrices, decoded at startup and immediately freed (`del`) from RAM.
-- **Dynamic Projectile Rasterizer (`draw_b`)**: Supports arbitrary-angle projectile rotation using `cos`/`sin` matrix transforms for `Hard` and `Hardcore` 360° enemy shots.
+- **Dynamic Projectile Rasterizer (`draw_b`)**: Supports arbitrary-angle projectile rotation using inverse mapping and row-by-row horizontal run-length rendering (`fill_rect`) for `Hard` and `Hardcore` 360° enemy shots.
 
 ### 4. Password-Based Checkpoint System, Achievements & Stats (Part 1 ↔ Part 2 Bridge)
 Because NumWorks MicroPython cannot write persistent save files to flash during execution, this game implements a clever workaround:
@@ -78,14 +78,6 @@ Full dataset available in [`ai_difficulty_balancing.csv`](ai_difficulty_balancin
 - **Shift** *(Key `12`)* : Toggle **Aim Lock** (`mf`) — lets you strafe/move without changing your shooting direction.
 - **Clear** *(Key `17`)* : Manually toggle **Shrink / Grow** size.
 - **Backspace** *(Key `16`)* : Open Options menu *(requires Part 1 merged)*.
-
----
-
-## ⚙️ Performance Tuning (Physical Hardware)
-
-If you experience low framerates on a physical NumWorks calculator, you can trade projectile visual fidelity for speed directly in `game_part2_gameplay.py`:
-- **Line `142`** (`function=draw` inside `draw_b()`): Switching the projectile renderer to call `ls` directly (bypassing the 4-corner border pass in `draw`) significantly boosts FPS, at the cost of small gaps in rotated bullets.
-- **Lines `132–133`** (`for a in range(t): for b in range(t):` inside `ls()`): Adding `-1` to `t` (`range(t-1)`) reduces the number of `fill_rect` calls per projectile pixel for an even faster framerate, making bullets slightly thinner/more perforated.
 
 ---
 
