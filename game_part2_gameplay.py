@@ -11,7 +11,7 @@
 #Idées noms: Crunky
 #À suivre :
 # - Partie 2 : Histoire, ennemis, combats, inventaire, objets à récolter, nouvelles zones, etc...
-from math import cos,sin,radians,sqrt,fabs,floor,ceil,atan2,degrees
+from math import cos,sin,radians,sqrt,fabs,floor,atan2,degrees
 from kandinsky import fill_rect as fr,draw_string as ds,get_pixel as gp
 from ion import keydown as kd
 from time import monotonic as mn,sleep as sl
@@ -135,8 +135,8 @@ def draw_b(x,y,t,d,cl,l):
  corners=((0,0),(w,0),(0,h),(w,h))
  xs=[cx*px-cy*py for cx,cy in corners]
  ys=[cx*py+cy*px for cx,cy in corners]
- min_x,max_x=floor(min(xs)),ceil(max(xs))
- min_y,max_y=floor(min(ys)),ceil(max(ys))
+ min_x,max_x=floor(min(xs)),floor(max(xs))+1
+ min_y,max_y=floor(min(ys)),floor(max(ys))+1
  for dy in range(min_y,max_y+1):
   run_col,run_start=0,min_x
   for dx in range(min_x,max_x+1):
