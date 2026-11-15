@@ -84,7 +84,7 @@ Full dataset available in [`ai_difficulty_balancing.csv`](ai_difficulty_balancin
 ## ⚙️ Performance Tuning (Physical Hardware)
 
 If you experience low framerates on a physical NumWorks calculator, you can trade projectile visual fidelity for speed directly in `game_part2_gameplay.py`:
-- **Line `140`** (`ls(x+ax,y+ay,t,d,color)` inside `draw()`): Switching the projectile renderer to call `ls` directly (bypassing the 4-corner border pass in `draw`) significantly boosts FPS, at the cost of small gaps in rotated bullets.
+- **Line `142`** (`function=draw` inside `draw_b()`): Switching the projectile renderer to call `ls` directly (bypassing the 4-corner border pass in `draw`) significantly boosts FPS, at the cost of small gaps in rotated bullets.
 - **Lines `132–133`** (`for a in range(t): for b in range(t):` inside `ls()`): Adding `-1` to `t` (`range(t-1)`) reduces the number of `fill_rect` calls per projectile pixel for an even faster framerate, making bullets slightly thinner/more perforated.
 
 ---
